@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.Scanner;
-
 public class BullsAndCows {
 
     // generate the secret code
@@ -9,8 +8,8 @@ public class BullsAndCows {
     private ArrayList<Integer> userGuess = new ArrayList<>();
 
     public BullsAndCows() {
-        getUserInput();
-        gradeUserInput();
+//        getUserInput();
+//        gradeUserInput();
     }
 
     private void printGrade(int cowCount, int bullCount) {
@@ -45,7 +44,7 @@ public class BullsAndCows {
             // test for bulls - same number at same index
             if (userGuessAtIndex == secretCodeAtIndex) {
                 bullCount++;
-            // test for cows - same number at different index
+                // test for cows - same number at different index
             } else if (secretCode.getSecretCode().contains(userGuessAtIndex)) {
                 cowCount++;
             }
