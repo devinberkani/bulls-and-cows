@@ -45,7 +45,7 @@ public class SecretCode {
         System.out.println("Okay, let's start a game!");
     }
 
-    private ArrayList<Character> getSecretCodeChoices() {
+    protected ArrayList<Character> getSecretCodeChoices() {
         ArrayList<Character> secretCodeChoices = new ArrayList<>();
 
         char currChar = '0';
@@ -67,14 +67,49 @@ public class SecretCode {
 
     private void getUserParameters() {
         System.out.println("Input the length of the secret code:");
-        int codeLength = scanner.nextInt();
-        while (codeLength > 36) {
-            System.out.println("Error: can't generate a secret number with a length of " + codeLength + " because there aren't enough unique digits.");
-            codeLength = scanner.nextInt();
+
+        boolean codeLengthValid = false;
+        boolean numberOfParametersValid = false;
+
+        String codeLengthString = "";
+        int codeLength = 0;
+
+        while (!codeLengthValid) {
+            try {
+                codeLengthString = scanner.nextLine();
+                codeLength = Integer.parseInt(codeLengthString);
+                if (codeLength > 36) {
+                    System.out.println("Error: can't generate a secret number with a length of " + codeLength + " because there aren't enough unique digits.");
+                } else if (codeLength < 1) {
+                    System.out.println("Error: length of secret code must greater than 0.");
+                } else {
+                    codeLengthValid = true;
+                }
+            } catch (Exception e) {
+                System.out.println("\"" + codeLengthString + "\" isn't a valid number.");
+            }
         }
 
         System.out.println("Input the number of possible symbols in the code:");
-        int numberOfParameters = scanner.nextInt();
+
+        String numberOfParametersString = "";
+        int numberOfParameters = 0;
+
+        while (!numberOfParametersValid) {
+            try {
+                numberOfParametersString = scanner.nextLine();
+                numberOfParameters = Integer.parseInt(numberOfParametersString);
+                if (numberOfParameters < codeLength) {
+                    System.out.println("Error: it's not possible to generate a code with a length of " + codeLength + " with " + numberOfParameters + " unique symbols.");
+                } else if (numberOfParameters > 36) {
+                    System.out.println("Error: maximum number of possible symbols in the code is 36 (0-9, a-z).");
+                } else {
+                    numberOfParametersValid = true;
+                }
+            } catch (Exception e) {
+                System.out.println("\"" + numberOfParametersString + "\" isn't a valid number.");
+            }
+        }
 
         setSecretCodeLength(codeLength);
         setNumberOfPossibleSymbols(numberOfParameters);

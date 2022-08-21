@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 public class BullsAndCows {
+
+    private boolean validUserGuess = false;
     private boolean gameOver;
     // generate the secret code
     private final SecretCode secretCode = new SecretCode();
@@ -13,7 +15,11 @@ public class BullsAndCows {
 
         while(!isGameOver()) {
             printTurn();
-            getUserInput();
+            while (!isValidUserGuess()) {
+                getUserInput();
+                setValidUserGuess(checkUserInput());
+            }
+            setValidUserGuess(false); // reset boolean
             gradeUserInput();
         }
 
@@ -51,6 +57,23 @@ public class BullsAndCows {
 //            System.out.print(n);
 //        }
 //        System.out.print(".");
+    }
+
+    private boolean checkUserInput() {
+        // check for wrong length
+        if (getUserGuess().size() != secretCode.getSecretCodeLength()) {
+            System.out.println("Error: input contains wrong number of symbols");
+            return false;
+        }
+
+        // check for invalid symbols
+        for (char character : getUserGuess()) {
+            if (!secretCode.getSecretCodeChoices().contains(character)) {
+                System.out.println("Error: input contains invalid symbols");
+                return false;
+            }
+        }
+        return true;
     }
 
     private void gradeUserInput() {
@@ -115,5 +138,13 @@ public class BullsAndCows {
 
     public void setTurnNumber(int turnNumber) {
         this.turnNumber = turnNumber;
+    }
+
+    public boolean isValidUserGuess() {
+        return validUserGuess;
+    }
+
+    public void setValidUserGuess(boolean validUserGuess) {
+        this.validUserGuess = validUserGuess;
     }
 }
