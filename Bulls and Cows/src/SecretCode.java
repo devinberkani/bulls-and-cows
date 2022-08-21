@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 public class SecretCode {
@@ -37,13 +38,12 @@ public class SecretCode {
     }
 
     private long getRandomNumber() {
-        long pseudoRandomNumber = System.nanoTime();
 
-        while (pseudoRandomNumber < getUserInputSecretCodeLength()) {
-            pseudoRandomNumber = System.nanoTime();
-        }
+        Random random = new Random();
+        int upperBound = Integer.MAX_VALUE;
+        int lowerBound = Integer.MAX_VALUE - 1000000000;
 
-        return pseudoRandomNumber;
+        return random.nextInt(upperBound - lowerBound) + lowerBound;
     }
 
     // generate secret code of numbers between 0-9
@@ -74,14 +74,6 @@ public class SecretCode {
         } else {
             return true;
         }
-
-//        Random random = new Random();
-//        int upperBound = 10;
-//
-//        // fill secretCode array
-//        for (int i = 0; i < 4; i++) {
-//            secretCode.add(random.nextInt(upperBound));
-//        }
     }
 
     protected ArrayList<Integer> getSecretCode() {
